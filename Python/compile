@@ -1,0 +1,15 @@
+#! /bin/bash
+OUTPUT=$( echo $1 | cut -f 1 -d . )
+OTYPE=$( echo $1 | cut -f 2 -d . )
+case $OTYPE in
+	c) echo "Compiled with GCC to "$PWD"/"$OUTPUT"" && COMPILER=gcc
+	;;
+	cpp|cxx) echo "Compiled with G++ to "$PWD"/"$OUTPUT"" && COMPILER=g++
+	;;
+esac
+$COMPILER -o $OUTPUT $1
+chmod +x $OUTPUT
+if [ "$2" == "run" ]
+	then
+	./$OUTPUT;
+fi
