@@ -2,8 +2,26 @@
 $time = "$($date.second)$($date.minute)$($date.hour)"
 $file = "Comp-Results-$($time)-$($date.Day)-$($date.Month)-$($date.year).txt"
 Clear-Host
-$baseline = Read-Host -Prompt "Baseline file "
-$compTo = Read-Host -Prompt "File to compare to "
+
+if ($args.Length -ne 4){
+   Write-host "Usage: comp.ps1 -b baseline.txt -c compareTo.txt
+               Must provide baseline and Compare files
+               -b baseline
+               -c Compare to"
+   }
+
+if($args.Length -eq 4) {
+    for ( $i = 0; $i -lt $args.count; $i++ ) {
+        if ($args[ $i ] -eq "-b"){ $Origin=$args[ $i+1 ]}
+        if ($args[ $i ] -eq "-c"){ $Compare=$args[ $i+1 ]}
+
+        }
+    }
+
+else{
+    $baseline = Read-Host -Prompt "Baseline file "
+    $compTo = Read-Host -Prompt "File to compare to "
+    }
 
 $Origin = (Get-Content $baseline)
 $Compare = (Get-Content $compTo)
