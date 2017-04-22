@@ -25,9 +25,8 @@ else{
 
 $Origin = (Get-Content $baseline)
 $Compare = (Get-Content $compTo)
-$content = @()
-$content += (Compare-Object -ReferenceObject ($Origin) -DifferenceObject ($Compare))
-$content > $file
+$content = (Compare-Object -ReferenceObject ($Origin) -DifferenceObject ($Compare))
+Out-File -InputObject $content $file
 "`nResults saved to {0}" -f $file
 
 $looping = 1
@@ -40,4 +39,4 @@ while ($looping){
         if ($print.ToLower() -eq "n"){break}
         }
     "Must enter Y or N"
-}
+} 
