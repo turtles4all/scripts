@@ -13,7 +13,7 @@ function dateTime(){
     $a += (fmtOut $title)
     $a += Get-Date 
 
-    return $a # | Export-Clixml $file # out-file -Encoding string -append $file
+    return $a
 }
 
 
@@ -22,27 +22,25 @@ function HostName(){
     $a = @()
     $a += (fmtOut $title)
     $a += ($env:COMPUTERNAME)
-    
-    
-    return $a # | Export-Clixml -force $file # out-file -Encoding string -append $file
+   
+    return $a
 }
 
 
-function acctGroup(){ # Ouput users in groups
+function acctGroup(){
     $title = "User accounts and groups"
     $a = @()
     $a += (fmtOut $title)
     Get-Localgroup | ForEach-Object { 
         $group = $_
         $members = Get-LocalGroupMember $group
-        if ($members.Length -gt 0 ){ # if the group does not have assigned users, do not print the group
-        $a += (fmtOut $group)# | Export-Clixml $file # out-file -Encoding string -append $file
-        $a += ($members| format-list -Property Name,SID) #| Export-Clixml $file # out-file -Encoding string -append $file}
+        if ($members.Length -gt 0 ){
+        $a += (fmtOut $group)
+        $a += ($members| format-list -Property Name,SID)
         }
     }
 
-
-    return $a #| Export-Clixml $file # out-file -Encoding string -append $file
+    return $a 
 }
 
 
@@ -52,7 +50,7 @@ function lUsers(){
     $a += (fmtOut $title)
     $a += (Get-WmiObject Win32_LoggedOnUser | Select Antecedent -Unique)
     
-    return $a #| Export-Clixml $file # out-file -Encoding string -append $file
+    return $a
 }
 
 function Procs(){
@@ -60,6 +58,7 @@ function Procs(){
     $title = "Running processes"
     $processes += (fmtOut $title)
     $processes += (Get-Process | Sort-Object Name | Format-Table Name,ID,SI)
+
     return $processes
 }
 
@@ -68,7 +67,8 @@ function servicStat(){
     $a = @()
     $a += (fmtOut $title)
     $a += (get-service | format-table Name,starttype,Status,DependentServices)
-    return $a # | Export-Clixml $file # out-file -Encoding string -append $file
+
+    return $a
 }
 
  
@@ -78,7 +78,7 @@ function netInfo(){
     $a += fmtOut $title
     $a += (Get-NetAdapter | ForEach-Object {format-list -property * -InputObject $_})
 
-    return $a # | Export-Clixml $file # out-file -Encoding string -append $file
+    return $a
 }
 
 
@@ -88,7 +88,7 @@ function netSock(){
     $a += fmtOut $title
     $a += (Get-NetTCPConnection | Where-Object {$_.State -eq 'Listen'} | Sort-Object @{Expression={$_.localaddress}; a=0},localport | format-table localport,localaddress,state,OwningProcess)
 
-   return $a # | Export-Clixml $file # out-file -Encoding string -append $file
+   return $a
 }
 
 function confInfo {
@@ -115,7 +115,8 @@ function mapedDrives(){
     else {
         $a += "NONE"
         }
-    return $a # | Export-Clixml $file # out-file -Encoding string -append $file
+
+    return $a
 }
 
 
@@ -125,7 +126,7 @@ function ConfiguredDevices(){
     $a += fmtOut $title
     $a += (Get-PnpDevice | ForEach-Object { $_ | Format-List -Property * })
 
-    return $a # | Export-Clixml $file # out-file -Encoding string -append $file
+    return $a
 }
 
 function sharedResources(){
@@ -134,7 +135,7 @@ function sharedResources(){
     $a += fmtOut $title
     $a += (Get-WmiObject -class win32_share)
 
-    return $a # | Export-Clixml $file # out-file -Encoding string -append $file
+    return $a
 }
 
 function Scheduledtasks(){
@@ -143,11 +144,12 @@ function Scheduledtasks(){
     $a += fmtOut $title
     $a += (Get-ScheduledTask | Sort-Object taskname | format-table -autosize taskname,taskpath,state,version,author)
 
-
-    return $a # | Export-Clixml $file # out-file -Encoding string -append $file
+    return $a
 }
-$content = @()
+
 Clear-Host
+write-host "Running..."
+$content = @()
 $content += dateTime 
 $content += HostName 
 $content += acctGroup 
@@ -161,7 +163,17 @@ $content += mapedDrives
 $content += ConfiguredDevices
 $content += sharedResources
 $content += Scheduledtasks
-$content
 $content > $file
 "Results saved to {0}" -f $file
+$looping = 1
 
+while ($looping){
+    $print = Read-host -prompt "Show results to terminal? (Y/N)"
+    if ($print.ToLower() -ne "y" -or "n"){
+        if ($print.ToLower() -eq "y"){
+        $content
+        break}
+        if ($print.ToLower() -eq "n"){break}
+        }
+    "Must enter Y or N"
+}
