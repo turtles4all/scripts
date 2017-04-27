@@ -1,20 +1,25 @@
-﻿$regKeys = "HKLM:\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\FirewallRules"
+﻿Clear-Host
+$FirewallRules = "HKLM:\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\FirewallRules"
 
-if(!(Test-Path HKCR:\)){
-    #New-PSDrive -PSProvider Registry -Name HKCR -Root HKEY_CLASSES_ROOT
-    }
-if(!(Test-Path HKU:\)){
-    #New-PSDrive -PSProvider Registry -Name HKU -Root HKEY_USERS
-    }
-if(!(Test-Path HKCC:\)){
-    #New-PSDrive -PSProvider Registry -Name HKCC -Root HKEY_CURRENT_CONFIG
+#returns property in custom format
+Function Get-RegistryKeytable($path) { 
+    Get-Item $path |
+    Select-Object -ExpandProperty property |
+    ForEach-Object {
+        New-Object psobject -Property @{“property”=$_;
+            “Value” = (Get-ItemProperty -Path . -Name $_).$_;
+            "Hive" = $path}
     }
 
-if(Test-Path $regKeys){
-    $telnet = (Get-RegistryKeyPropertiesAndValues -path $regKeys | Where-Object{$($_.value) -match "Rport=23" -and ($_.value -match "Dir=in")})
-    format-table -InputObject $telnet property,value
+}
+
+$telnet = (Get-RegistryKeytable -path $FirewallRules | Where-Object{$($_.value) -like "*Action=Block*Dir=in*Lport=23*"}) #search for telnet inbound rule 
+format-table -InputObject $telnet property,value
+    
+if($telnet){ #change values if rule exists
+    
     $curval = ($telnet.Value).Split("|")
-    $telnet
+    
     for($i=0; $i -ne $curval.Length; $i++){
         if($curval[$i] -match "Action"){
             $curval[$i] = "Action=Allow"
@@ -24,29 +29,18 @@ if(Test-Path $regKeys){
             }
     }
     $telnet.Value = ($curval -join "|")
-    #Set-ItemProperty -Path $telnet.hive -Name $telnet.property -value $telnet.value
+    Set-ItemProperty  -Path $telnet.hive -Name $telnet.property -type string -value $telnet.value
 }
 
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System]("ConsentPromptBehaviorAdmin"=dword:00000000,"EnableLUA"=dword:00000000
+else{ # if the rule does not exist then create the rule
+    Set-ItemProperty -Path $FirewallRules -Name "Telnet" -type string -value "v2.26|Action=Allow|Active=True|Dir=In|Protocol=6|LPort=23|Name=TELNET|"
+}      
 
+#Disable Credential Validation
+auditpol.exe /set /subcategory:"Credential Validation" /success:disable /failure:disable
 
+#Retrieve the firewall logs for today's date
 
-
-Function Get-RegistryKeyPropertiesAndValues($path) {
-    Get-Item $path |
-    Select-Object -ExpandProperty property |
-    ForEach-Object {
-        New-Object psobject -Property @{“property”=$_;
-            “Value” = (Get-ItemProperty -Path . -Name $_).$_;
-            "Hive" = $path}
-    }
-
-} 
-
-
-
-
-
-
-
-# Get-WinEvent -logname "Microsoft-Windows-Windows Firewall With Advanced Security/Firewall" | where{$_.timecreated -like "*4/26*" -and ($_.message -match "telnet")} | select -expand Message
+Get-WinEvent -logname "Microsoft-Windows-Windows Firewall With Advanced Security/Firewall" | 
+    where{$_.timecreated -like $(get-date -UFormat "*%m/%d*") -and ($_.message -match "telnet")} | 
+    select -expand Message
