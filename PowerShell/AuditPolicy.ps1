@@ -7,15 +7,17 @@ Function Get-RegistryKeytable($path) {
     Select-Object -ExpandProperty property |
     ForEach-Object {
         New-Object psobject -Property @{“property”=$_;
-            “Value” = (Get-ItemProperty -Path . -Name $_).$_;
+            “Value” = (Get-ItemProperty -Path $path -Name $_).$_;
             "Hive" = $path}
     }
 
 }
 
 $telnet = (Get-RegistryKeytable -path $FirewallRules | Where-Object{$($_.value) -like "*Action=Block*Dir=in*Lport=23*"}) #search for telnet inbound rule 
-format-table -InputObject $telnet property,value
-    
+
+if($telnet){
+    write-host "Current Telnet firewall rule parameters: "$telnet.value
+    }
 if($telnet){ #change values if rule exists
     
     $curval = ($telnet.Value).Split("|")
@@ -29,6 +31,7 @@ if($telnet){ #change values if rule exists
             }
     }
     $telnet.Value = ($curval -join "|")
+    write-host "Telnet firewall ruleschanged to: "$telnet.value
     Set-ItemProperty  -Path $telnet.hive -Name $telnet.property -type string -value $telnet.value
 }
 
@@ -37,10 +40,12 @@ else{ # if the rule does not exist then create the rule
 }      
 
 #Disable Credential Validation
+write-host "Disabling Credential Validation"
 auditpol.exe /set /subcategory:"Credential Validation" /success:disable /failure:disable
 
-#Retrieve the firewall logs for today's date
-
+write-host "Retrieving todays firewall logs..."
 Get-WinEvent -logname "Microsoft-Windows-Windows Firewall With Advanced Security/Firewall" | 
     where{$_.timecreated -like $(get-date -UFormat "*%m/%d*") -and ($_.message -match "telnet")} | 
     select -expand Message
+    
+write-host "Done"
