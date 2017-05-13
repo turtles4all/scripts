@@ -1,0 +1,98 @@
+
+Starting Nmap 6.47 ( http://nmap.org ) at 2017-05-13 21:32 UTC
+Nmap scan report for 10.25.0.2
+Host is up (0.0013s latency).
+Not shown: 996 closed ports
+PORT     STATE SERVICE
+135/tcp  open  msrpc
+139/tcp  open  netbios-ssn
+445/tcp  open  microsoft-ds
+5357/tcp open  wsdapi
+MAC Address: FA:16:3E:7E:8F:3F (Unknown)
+No exact OS matches for host (If you know what OS is running on it, see http://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=6.47%E=4%D=5/13%OT=135%CT=1%CU=42425%PV=Y%DS=1%DC=D%G=Y%M=FA163E%
+OS:TM=59177B83%P=x86_64-pc-linux-gnu)SEQ(SP=105%GCD=1%ISR=107%TI=I%CI=I%TS=
+OS:A)OPS(O1=M582NW8ST11%O2=M582NW8ST11%O3=M582NW8NNT11%O4=M582NW8ST11%O5=M5
+OS:82NW8ST11%O6=M582ST11)WIN(W1=2000%W2=2000%W3=2000%W4=2000%W5=2000%W6=200
+OS:0)ECN(R=Y%DF=Y%T=80%W=2000%O=M582NW8NNS%CC=N%Q=)T1(R=Y%DF=Y%T=80%S=O%A=S
+OS:+%F=AS%RD=0%Q=)T2(R=Y%DF=Y%T=80%W=0%S=Z%A=S%F=AR%O=%RD=0%Q=)T3(R=Y%DF=Y%
+OS:T=80%W=0%S=Z%A=O%F=AR%O=%RD=0%Q=)T4(R=Y%DF=Y%T=80%W=0%S=A%A=O%F=R%O=%RD=
+OS:0%Q=)T5(R=Y%DF=Y%T=80%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=80%W=0%
+OS:S=A%A=O%F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=80%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(
+OS:R=Y%DF=N%T=80%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=
+OS:N%T=80%CD=Z)
+
+Network Distance: 1 hop
+
+Nmap scan report for 10.25.0.3
+Host is up (0.0010s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+MAC Address: FA:16:3E:16:08:7E (Unknown)
+No exact OS matches for host (If you know what OS is running on it, see http://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=6.47%E=4%D=5/13%OT=22%CT=1%CU=42260%PV=Y%DS=1%DC=D%G=Y%M=FA163E%T
+OS:M=59177B83%P=x86_64-pc-linux-gnu)SEQ(SP=102%GCD=1%ISR=109%TI=Z%CI=I%TS=8
+OS:)SEQ(SP=102%GCD=1%ISR=109%TI=Z%TS=8)OPS(O1=M582ST11NW7%O2=M582ST11NW7%O3
+OS:=M582NNT11NW7%O4=M582ST11NW7%O5=M582ST11NW7%O6=M582ST11)WIN(W1=6D38%W2=6
+OS:D38%W3=6D38%W4=6D38%W5=6D38%W6=6D38)ECN(R=Y%DF=Y%T=40%W=6E28%O=M582NNSNW
+OS:7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=AS%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF
+OS:=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O=
+OS:%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=
+OS:0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T=40%IPL=164%UN=0%RIPL=G%RID=G%RI
+OS:PCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD=S)
+
+Network Distance: 1 hop
+
+Nmap scan report for 10.25.0.200
+Host is up (0.0010s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+53/tcp open  domain
+MAC Address: FA:16:3E:04:F9:EE (Unknown)
+No exact OS matches for host (If you know what OS is running on it, see http://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=6.47%E=4%D=5/13%OT=53%CT=1%CU=39189%PV=Y%DS=1%DC=D%G=Y%M=FA163E%T
+OS:M=59177B83%P=x86_64-pc-linux-gnu)SEQ(SP=103%GCD=1%ISR=10D%TI=Z%TS=8)SEQ(
+OS:SP=103%GCD=1%ISR=10D%TI=Z%CI=RD%TS=8)OPS(O1=M582ST11NW7%O2=M582ST11NW7%O
+OS:3=M582NNT11NW7%O4=M582ST11NW7%O5=M582ST11NW7%O6=M582ST11)WIN(W1=6D38%W2=
+OS:6D38%W3=6D38%W4=6D38%W5=6D38%W6=6D38)ECN(R=Y%DF=Y%T=40%W=6E28%O=M582NNSN
+OS:W7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S+%F=AS%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%D
+OS:F=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=Y%DF=Y%T=40%W=0%S=Z%A=S+%F=AR%O
+OS:=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W
+OS:=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T=40%IPL=164%UN=0%RIPL=G%RID=G%R
+OS:IPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD=S)
+
+Network Distance: 1 hop
+
+Nmap scan report for 10.25.0.254
+Host is up (0.0019s latency).
+All 1000 scanned ports on 10.25.0.254 are closed
+MAC Address: FA:16:3E:6D:9A:0F (Unknown)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 1 hop
+
+Stats: 0:00:24 elapsed; 255 hosts completed (5 up), 1 undergoing Connect Scan
+Connect Scan Timing: About 1.00% done; ETC: 21:32 (0:00:00 remaining)
+Nmap scan report for 10.25.0.1
+Host is up (0.00030s latency).
+Not shown: 992 closed ports
+PORT     STATE SERVICE
+22/tcp   open  ssh
+80/tcp   open  http
+139/tcp  open  netbios-ssn
+445/tcp  open  microsoft-ds
+3389/tcp open  ms-wbt-server
+5901/tcp open  vnc-1
+6001/tcp open  X11:1
+8000/tcp open  http-alt
+Device type: general purpose
+Running: Linux 3.X
+OS CPE: cpe:/o:linux:linux_kernel:3
+OS details: Linux 3.7 - 3.15
+Network Distance: 0 hops
+
+OS detection performed. Please report any incorrect results at http://nmap.org/submit/ .
+Nmap done: 256 IP addresses (5 hosts up) scanned in 26.89 seconds
