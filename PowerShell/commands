@@ -1,0 +1,77 @@
+Order:
+situational/users loged in
+
+Base info:
+
+time /t
+date /t
+hostname
+whoami /all /fo list
+systeminfo
+
+currently running Running:
+tasklist /m
+tasklist /svc
+SC query type= all | FOR /F "tokens=2" %i IN ('FIND /I "SERVICE_NAME"') DO @sc qc %i
+
+Network Info:
+ipconfig /all
+nbtstat -n
+netstat -r
+arp -a
+
+Patches:
+wmic qfe list brief
+net start
+reg query HKLM\Software
+reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\
+netstat -ano | find "LISTENING"
+netstat -anob
+net user
+
+Firewall:
+netsh advfirewall show allprofiles
+netsh advfirewall firewall show rule name=all
+net localgroup “Remote Desktop Users” Student /add
+
+open Hole:
+netsh advfirewall firewall add rule name=“HTTP Alternate” localport=8080 dir=in action=allow protocol=tcp
+ 
+schtasks /query /V /FO list
+
+net localgroup
+
+net localgroup /domain
+net groups /domain
+
+security:
+wevtutuil el
+wevtutil gl security
+auditpol /get /category:*
+wevtutil qe security /c:20 /rd:true /f:text
+
+
+Drives:
+fsutil fsinfo drives
+fsutil fsinfo drivetype
+
+look for odd times in system32:
+
+dir /x /
+
+Clear event:
+wevtutil qe security /c:10 /f:text
+c:\windows\system32\winevt\Logs
+
+hklm\system\surrentcontrolset\lsass\lsa
+reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Run
+reg query HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce
+reg query HKCU\Software\Microsoft\Windows\CurrentVersion\Run
+reg query HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce
+reg query "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon"
+
+Process investigation:
+
+tasklist /FI "IMAGENAME eq csrss.exe"
+
+wmic process where name="svchost.exe" get commandline
